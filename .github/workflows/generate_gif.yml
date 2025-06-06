@@ -1,0 +1,33 @@
+name: Generate Animated GIF
+
+on:
+  push:
+    paths:
+      - generate_gif.py
+      - '*.png'
+      - .github/workflows/generate_gif.yml
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: pip install pillow numpy
+
+    - name: Run GIF generation script
+      run: python generate_gif.py
+
+    - name: Upload GIF as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: animated-gif
+        path: theficraft_neon_animated.gif
